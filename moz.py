@@ -29,7 +29,7 @@ div.stButton > button:hover {
 if st.button("افکت ها"):
    st.switch_page("pages/effects.py")
 if st.button("بازی ها"):
-     st.switch_page("games.py")
+     st.switch_page("pages/games.py")
 
 
 

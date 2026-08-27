@@ -1,7 +1,7 @@
 import streamlit as st
 st.title("افکت ها")
 if st.button("🎈افکت بادکنک"):
-  st.ballons()
+  st.balloons()
 if st.button("🎄برف"):
   st.snow()
 if st.button("⬅برگشت"):

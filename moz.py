@@ -1,5 +1,12 @@
 import streamlit as st
 import streamlit.components.v1 as components
+st.markdown("""
+<style>
+[data-testid="stSidebar"] {
+    display: none;
+}
+</style>
+""", unsafe_allow_html=True)
 st.title("moz")
 st.markdown("""
 <style>

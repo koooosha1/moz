@@ -29,10 +29,10 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-if st.button("افکت ها"):
+if st.button("effect ha"):
     st.switch_page("pages/effects.py")
 
-if st.button("بازی ها"):
+if st.button("bazi ha"):
     st.switch_page("pages/games.py")
 
 if st.button(" چت با ربات"):

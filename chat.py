@@ -113,3 +113,22 @@ if prompt := st.chat_input("پیامت رو بنویس..."):
 
     with st.chat_message("assistant"):
         st.write(answer)
+
+
+# ==============================
+# افکت بزرگ شدن دکمه هنگام موس
+# ==============================
+
+st.markdown("""
+<style>
+
+button {
+    transition: transform 0.2s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.08);
+}
+
+</style>
+""", unsafe_allow_html=True)

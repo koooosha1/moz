@@ -1,5 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
+
 st.markdown("""
 <style>
 [data-testid="stSidebar"] {
@@ -7,7 +8,9 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
 st.title("moz")
+
 st.markdown("""
 <style>
 div.stButton > button {
@@ -27,9 +30,10 @@ div.stButton > button:hover {
 """, unsafe_allow_html=True)
 
 if st.button("افکت ها"):
-   st.switch_page("pages/effects.py")
+    st.switch_page("pages/effects.py")
+
 if st.button("بازی ها"):
-     st.switch_page("pages/games.py")
+    st.switch_page("pages/games.py")
 
-
-
+if st.button("🤖 چت با ربات"):
+    st.switch_page("pages/chat.py")

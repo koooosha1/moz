@@ -35,5 +35,5 @@ if st.button("افکت ها"):
 if st.button("بازی ها"):
     st.switch_page("pages/games.py")
 
-if st.button("🤖 چت با ربات"):
-    st.switch_page("pages/chat.py")
+if st.button(" چت با ربات"):
+    st.switch_page("chat.py")

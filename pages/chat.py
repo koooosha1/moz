@@ -8,10 +8,6 @@ st.set_page_config(
 st.title("🔵 Chat ba Robot")
 st.caption("Ba robot sohbat kon!")
 
-# ==============================
-# Hafeze chat
-# ==============================
-
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -19,34 +15,17 @@ if "name" not in st.session_state:
     st.session_state.name = None
 
 if "waiting_for_name" not in st.session_state:
-    st.session_state.waiting_for_name = False
+    st.session_state.waiting_for_name = True
 
 if "waiting_for_job" not in st.session_state:
     st.session_state.waiting_for_job = False
 
 
-# ==============================
-# Tabdil horoof va kalamat Farsi
-# ==============================
-
-def normalize_text(text):
+def normalize(text):
     text = text.lower().strip()
 
-    replacements = {
-        "ی": "ی",
-        "ي": "ی",
-        "ک": "ک",
-        "ك": "ک",
-        "ۀ": "ه",
-        "ة": "ه",
-    }
-
-    for old, new in replacements.items():
-        text = text.replace(old, new)
-
-    fa_words = {
+    words = {
         "سلام": "salam",
-        "سلاممم": "salam",
         "خوب": "khub",
         "خوبم": "khubam",
         "خوبم ممنون": "khubam mamnoon",
@@ -56,7 +35,6 @@ def normalize_text(text):
         "آره": "are",
         "اره": "are",
         "نه": "na",
-        "نا": "na",
         "دانش آموز": "danesh amuz",
         "دانش‌آموز": "danesh amuz",
         "دانش آموزم": "danesh amuzam",
@@ -77,111 +55,35 @@ def normalize_text(text):
         "سفر رفتن": "safar raftan",
         "سفر کردن": "safar kardan",
         "پیتزا": "pizza",
-        "همبرگر": "hamburger",
+        "همبرگر": "hamburger"
     }
 
-    if text in fa_words:
-        return fa_words[text]
+    return words.get(text, text)
 
-    return text
-
-
-# ==============================
-# Finglish kardan matn
-# ==============================
-
-def to_finglish(text):
-    table = {
-        "ا": "a",
-        "آ": "a",
-        "ب": "b",
-        "پ": "p",
-        "ت": "t",
-        "ث": "s",
-        "ج": "j",
-        "چ": "ch",
-        "ح": "h",
-        "خ": "kh",
-        "د": "d",
-        "ذ": "z",
-        "ر": "r",
-        "ز": "z",
-        "ژ": "zh",
-        "س": "s",
-        "ش": "sh",
-        "ص": "s",
-        "ض": "z",
-        "ط": "t",
-        "ظ": "z",
-        "ع": "'",
-        "غ": "gh",
-        "ف": "f",
-        "ق": "gh",
-        "ک": "k",
-        "گ": "g",
-        "ل": "l",
-        "م": "m",
-        "ن": "n",
-        "و": "v",
-        "ه": "h",
-        "ی": "y",
-        "ئ": "y",
-        "ء": "",
-        "‌": " ",
-    }
-
-    result = ""
-
-    for char in text:
-        result += table.get(char, char)
-
-    return result
-
-
-# ==============================
-# Bot reply
-# ==============================
 
 def bot_reply(text):
-    text = normalize_text(text)
+    text = normalize(text)
 
-    # Salam
-    if text in ["salam", "salaam", "hello", "hi"]:
-        if not st.session_state.name:
-            st.session_state.waiting_for_name = True
-            return """Salam! 👋
-
-Khoshhalam az ashnaei bahet!
-
-Esmet chie?"""
-
-    # Gereftan esm
     if st.session_state.waiting_for_name:
+        if text in ["salam", "salaam", "hello", "hi"]:
+            return "Salam! 👋\n\nKhoshhalam az ashnaei bahet!\n\nEsmet chie?"
+
         st.session_state.name = text
         st.session_state.waiting_for_name = False
         st.session_state.waiting_for_job = True
 
-        return f"""Salam {text}! 👋
+        return f"Salam {text}! 👋\n\nAz ashnaei bahet khoshhalam!\n\nEsmet kheili ghashange! 😊\n\nShoghelet chie?"
 
-Az ashnaei bahet khoshhalam!
-
-Esmet kheili ghashange! 😊
-
-Shoghelet chie?"""
-
-    # Gereftan shoghl
     if st.session_state.waiting_for_job:
         st.session_state.waiting_for_job = False
 
         if text in ["danesh amuz", "daneshamuz", "danesh amuzam"]:
-            return """Oh! Pas hanuz dari dars mikhuni! 📚
-
-Darse more alaghet chie?"""
+            return "Oh! Pas hanuz dari dars mikhuni! 📚\n\nDarse more alaghet chie?"
 
         if text in ["daneshju", "daneshju hastam"]:
-            return """Oh! Pas hanuz dari dars mikhuni! 🎓
+            return "Oh! Pas hanuz dari dars mikhuni! 🎓\n\nReshteat chie?"
 
-Reshteat chie?"""if text in ["moalem", "moallem"]:
+        if text in ["moalem", "moallem"]:
             return "Shoghle arzeshmandi dari! 👨‍🏫"
 
         if text in ["mohandes omran", "mohandes emran"]:
@@ -190,10 +92,9 @@ Reshteat chie?"""if text in ["moalem", "moallem"]:
         if text in ["doctor", "pezeshk"]:
             return f"{st.session_state.name}, kheyli arzeshmende ke be mardom komak mikoni! ❤️"
 
-        if text in ["motarjem"]:
+        if text == "motarjem":
             return "Pas yani zaban baladi! 🌎 Che zaban baladi?"
 
-    # Vaziat
     if "halat" in text or "khubi" in text:
         return "Khubam! 😄 To chetori?"
 
@@ -203,16 +104,11 @@ Reshteat chie?"""if text in ["moalem", "moallem"]:
     if text in ["bad", "khub nistam", "badam"]:
         return "Chera? Age halet bade mitunim baadan sohbat konim 💔"
 
-    # Shoghl
     if text in ["danesh amuz", "daneshamuz", "danesh amuzam"]:
-        return """Oh! Pas hanuz dari dars mikhuni! 📚
-
-Darse more alaghet chie?"""
+        return "Oh! Pas hanuz dari dars mikhuni! 📚\n\nDarse more alaghet chie?"
 
     if text in ["daneshju", "daneshju hastam"]:
-        return """Oh! Pas hanuz dari dars mikhuni! 🎓
-
-Reshteat chie?"""
+        return "Oh! Pas hanuz dari dars mikhuni! 🎓\n\nReshteat chie?"
 
     if text in ["moalem", "moallem"]:
         return "Shoghle arzeshmandi dari! 👨‍🏫"
@@ -223,14 +119,12 @@ Reshteat chie?"""
     if text in ["doctor", "pezeshk"]:
         return f"{st.session_state.name}, kheyli arzeshmende ke be mardom komak mikoni! ❤️"
 
-    if text in ["motarjem"]:
+    if text == "motarjem":
         return "Pas yani zaban baladi! 🌎 Che zaban baladi?"
 
-    # Zaban
     if text in ["englisi", "english", "engilisi", "engelisi"]:
         return "Oh che bahal! Zaban beynolmelali baladi! 🌎🇬🇧"
 
-    # Sargarmi
     if text in ["varzesh", "varzesh kardan"]:
         return "Varzesh kardan ham tafrihe bahalie va ham baraye salemati mofide! 🏐⚽"
 
@@ -244,27 +138,20 @@ Reshteat chie?"""
     ]:
         return "Are manam asheghe mosafartam! ✈️🌍"
 
-    # Ghaza
     if text == "pizza":
         return "Be-be! Manam asheghe pizzam! 🍕🍕"
 
     if text == "hamburger":
         return "Hamburger ham ke alie! 🍔🍔"
 
-    # Zaban digar
     if text in ["na", "nah"]:
         return "OK 👍"
 
-    if text in ["are"]:
+    if text == "are":
         return "Che zabani? 🌎"
 
-    # Pasokh pishfarz
-    return f"{to_finglish(text)}\n\nChe jaleb! 😄"
+    return text + "\n\nChe jaleb! 😄"
 
-
-# ==============================
-# Daryaft payam jadid
-# ==============================
 
 if prompt := st.chat_input("Payamet ro benevis..."):
 
@@ -287,28 +174,17 @@ if prompt := st.chat_input("Payamet ro benevis..."):
         st.write(answer)
 
 
-# ==============================
-# Rang avatar ha
-# ==============================
+st.markdown(
+    """
+    <style>
+    button {
+        transition: transform 0.2s ease-in-out;
+    }
 
-st.markdown("""
-<style>
-
-[data-testid="stChatMessageAvatarUser"] {
-    background-color: #22c55e !important;
-}
-
-[data-testid="stChatMessageAvatarAssistant"] {
-    background-color: #3b82f6 !important;
-}
-
-button {
-    transition: transform 0.2s ease-in-out;
-}
-
-button:hover {
-    transform: scale(1.08);
-}
-
-</style>
-""", unsafe_allow_html=True)
+    button:hover {
+        transform: scale(1.08);
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)

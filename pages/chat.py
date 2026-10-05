@@ -1,18 +1,25 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="چت با ربات",
+    page_title="Chat ba Robot",
     page_icon="🤖"
 )
 
-st.title("🤖 چت با ربات")
-st.caption("با ربات صحبت کن!")
+st.title("🤖 Chat ba Robot")
+st.caption("Ba robot sohbat kon!")
 
-# حافظه چت
+# Hafeze chat
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# نمایش پیام‌های قبلی
+# Nam va shoghl
+if "name" not in st.session_state:
+    st.session_state.name = None
+
+if "job" not in st.session_state:
+    st.session_state.job = None
+
+# Namayesh payam haye ghabli
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
@@ -21,114 +28,79 @@ for message in st.session_state.messages:
 def bot_reply(text):
     text = text.lower().strip()
 
-    # سلام و اسم
-    if not st.session_state.get("name"):
+    # Salam
+    if text in ["salam", "salaam", "hello", "hi"]:
+        if not st.session_state.name:
+            return "Salam! 👋\n\nKhoshhalam az ashnaei bahet!\n\nEsmet chie?"
+
+    # Ghabool kardan esm
+    if not st.session_state.name:
         st.session_state.name = text
-        return f"سلام {text}! 👋\n\nاز آشنایی باهات خوشحالم!\n\nاسمت خیلی قشنگه! 😊"
+        return f"Salam {text}! 👋\n\nAz ashnaei bahet khoshhalam!\n\nEsmet kheili ghashange! 😊\n\nShoghelet chie?"
 
-    # وضعیت
-    if "حالت" in text or "خوبی" in text:
-        return "خوبم! 😄 تو چطوری؟"
+    # Vaziat
+    if "halat" in text or "khobi" in text:
+        return "Khubam! 😄 To chetori?"
 
-    if text in ["خوب", "خوبم", "خوبم ممنون"]:
-        return "خداروشکر! 😊"
+    if text in ["khub", "khubam", "khubam mamnoon"]:
+        return "Khoda ro shokr! 😊"
 
-    if text in ["بد", "خوب نیستم", "بدم"]:
-        return "چرا؟ اگه حالت بده می‌تونیم بعداً صحبت کنیم 💔"
+    if text in ["bad", "khub nistam", "badam"]:
+        return "Chera? Age halet bade mitunim baadan sohbat konim 💔"
 
-    # شغل
-    if text in ["دانش آموز", "دانشاموز", "دانش آموزم"]:
-        return "اوه! پس هنوز داری درس می‌خونی! 📚\n\nدرس مورد علاقه‌ات چیه؟"
+    # Shoghl
+    if text in ["danesh amuz", "daneshamuz", "danesh amuzam"]:
+        return "Oh! Pas hanuz dari dars mikhuni! 📚\n\nDarse more alaghet chie?"
 
-    if text in ["دانشجو", "دانشجو هستم"]:
-        return "اوه! پس هنوز داری درس می‌خونی! 🎓\n\nرشته‌ات چیه؟"
+    if text in ["daneshju", "daneshju hastam"]:
+        return "Oh! Pas hanuz dari dars mikhooni! 🎓\n\nReshteat chie?"
 
-    if text in ["معلم", "موالم"]:
-        return "شغل ارزشمندی داری! 👨‍🏫"
+    if text in ["moalem", "moallem"]:
+        return "Shoghle arzeshmandi dari! 👨‍🏫"
 
-    if text in ["مهندس عمران", "مندس عمران"]:
-        return "اوه! پس ساختمان می‌سازی! 🏗️ خیلی شغل باحالی داری!"
+    if text in ["mohandes omran", "mohandes emran"]:
+        return "Oh! Pas sakhteman misazi! 🏗️ Kheyli shoghle bahali dari!"
 
-    if text in ["دکتر", "پزشک"]:
-        return f"{st.session_state.name}، خیلی ارزشمنده که به مردم کمک می‌کنی! ❤️"
+    if text in ["doctor", "pezeshk"]:
+        return f"{st.session_state.name}، kheyli arzeshmende ke be mardom komak mikoni! ❤️"
 
-    if text in ["مترجم", "متارجم"]:
-        return "پس یعنی زبان بلدی! 🌎 چه زبانی بلدی؟"
+    if text in ["motarjem", "motarjem"]:
+        return "Pas yani zaban baladi! 🌎 Che zabani baladi?"
 
-    # زبان
-    if text in ["انگلیسی", "english", "engilisi", "engelisi"]:
-        return "اوه چه باحال! زبان بین‌المللی بلدی! 🌎🇬🇧"
+    # Zaban
+    if text in ["englisi", "english", "engilisi", "engelisi"]:
+        return "Oh che bahal! Zaban beynolmelali baladi! 🌎🇬🇧"
 
-    # سرگرمی
-    if text in ["ورزش", "ورزش کردن"]:
-        return "ورزش کردن هم تفریح باحالیه و هم برای سلامتی مفیده! 🏐⚽"
+    # Sargarmi
+    if text in ["varzesh", "varzesh kardan"]:
+        return "Varzesh kardan ham tafrihe bahalie va ham baraye salemati mofide! 🏐⚽"
 
     if text in [
-        "مسافرت",
-        "مسافرت رفتن",
-        "مسافرت کردن",
-        "سفر",
-        "سفر رفتن",
-        "سفر کردن"
+        "mosafarat",
+        "mosafarat raftan",
+        "mosafarat kardan",
+        "safar",
+        "safar raftan",
+        "safar kardan"
     ]:
-        return "آره منم عاشق مسافرتم! ✈️🌍"
+        return "Are manam asheghe mosafartam! ✈️🌍"
 
-    # غذا
-    if text == "پیتزا":
-        return "به‌به! منم عاشق پیتزام! 🍕🍕"
+    # Ghaza
+    if text == "pizza":
+        return "Be-be! Manam asheghe pizzam! 🍕🍕"
 
-    if text == "همبرگر":
-        return "همبرگر هم که عالیه! 🍔🍔"
+    if text == "hamburger":
+        return "Hamburger ham ke alie! 🍔🍔"
 
-    # زبان دیگر
-    if text in ["نه", "نا"]:
+    # Zaban digar
+    if text in ["na", "nah"]:
         return "OK 👍"
 
-    if text in ["آره", "اره"]:
-        return "چه زبانی؟ 🌎"
+    if text in ["are", "اره"]:
+        return "Che zabani? 🌎"
 
-    # پاسخ پیش‌فرض
-    return f"{text}\n\nچه جالب! 😄"
-
-
-# دریافت پیام جدید
-if prompt := st.chat_input("پیامت رو بنویس..."):
-
-    # پیام کاربر
-    st.session_state.messages.append({
-        "role": "user",
-        "content": prompt
-    })
-
-    with st.chat_message("user"):
-        st.write(prompt)
-
-    # پاسخ ربات
-    answer = bot_reply(prompt)
-
-    st.session_state.messages.append({
-        "role": "assistant",
-        "content": answer
-    })
-
-    with st.chat_message("assistant"):
-        st.write(answer)
+    # Pasokh pishfarz
+    return f"{text}\n\nChe jaleb! 😄"
 
 
-# ==============================
-# افکت بزرگ شدن دکمه هنگام موس
-# ==============================
-
-st.markdown("""
-<style>
-
-button {
-    transition: transform 0.2s ease-in-out;
-}
-
-button:hover {
-    transform: scale(1.08);
-}
-
-</style>
-""", unsafe_allow_html=True)
+#

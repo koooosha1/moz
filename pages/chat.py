@@ -33,17 +33,17 @@ def bot_reply(text):
         if not st.session_state.name:
             return "Salam! 👋\n\nKhoshhalam az ashnaei bahet!\n\nEsmet chie?"
 
-    # Ghabool kardan esm
+    # Sabt esm
     if not st.session_state.name:
         st.session_state.name = text
-        return f"Salam {text}! 👋\n\nAz ashnaei bahet khoshhalam!\n\nEsmet kheili ghashange! 😊\n\nShoghelet chie?"
+        return f"Salam {text}! 👋\n\nAz ashnaei bahet khoshhalam!\n\nEsmet kheili ghashange! 😊"
 
     # Vaziat
-    if "halat" in text or "khobi" in text:
+    if "halat" in text or "khubi" in text:
         return "Khubam! 😄 To chetori?"
 
     if text in ["khub", "khubam", "khubam mamnoon"]:
-        return "Khoda ro shokr! 😊"
+        return "Khodaro shokr! 😊"
 
     if text in ["bad", "khub nistam", "badam"]:
         return "Chera? Age halet bade mitunim baadan sohbat konim 💔"
@@ -53,7 +53,7 @@ def bot_reply(text):
         return "Oh! Pas hanuz dari dars mikhuni! 📚\n\nDarse more alaghet chie?"
 
     if text in ["daneshju", "daneshju hastam"]:
-        return "Oh! Pas hanuz dari dars mikhooni! 🎓\n\nReshteat chie?"
+        return "Oh! Pas hanuz dari dars mikhuni! 🎓\n\nReshteat chie?"
 
     if text in ["moalem", "moallem"]:
         return "Shoghle arzeshmandi dari! 👨‍🏫"
@@ -62,9 +62,9 @@ def bot_reply(text):
         return "Oh! Pas sakhteman misazi! 🏗️ Kheyli shoghle bahali dari!"
 
     if text in ["doctor", "pezeshk"]:
-        return f"{st.session_state.name}، kheyli arzeshmende ke be mardom komak mikoni! ❤️"
+        return f"{st.session_state.name}، kheyli arzeshmande ke be mardom komak mikoni! ❤️"
 
-    if text in ["motarjem", "motarjem"]:
+    if text in ["motarjem"]:
         return "Pas yani zaban baladi! 🌎 Che zabani baladi?"
 
     # Zaban
@@ -96,11 +96,46 @@ def bot_reply(text):
     if text in ["na", "nah"]:
         return "OK 👍"
 
-    if text in ["are", "اره"]:
+    if text in ["are"]:
         return "Che zabani? 🌎"
 
     # Pasokh pishfarz
     return f"{text}\n\nChe jaleb! 😄"
 
 
-#
+# Daryaft payam jadid
+if prompt := st.chat_input("Payamet ro benevis..."):
+
+    # Payam karbar
+    st.session_state.messages.append({
+        "role": "user",
+        "content": prompt
+    })
+
+    with st.chat_message("user"):
+        st.write(prompt)
+
+    # Pasokh robot
+    answer = bot_reply(prompt)
+
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": answer
+    })
+
+    with st.chat_message("assistant"):
+        st.write(answer)
+
+
+# ==============================
+# Efekt bozorg shodan dokme hengam mouse
+# ==============================
+
+st.markdown("""
+<style>
+
+button {
+    transition: transform 0.2s ease-in-out;
+}
+
+button:hover
